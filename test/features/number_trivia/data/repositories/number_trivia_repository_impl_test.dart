@@ -1,4 +1,5 @@
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter_app_counter/core/platform/network_info.dart';
 import 'package:flutter_app_counter/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:flutter_app_counter/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
@@ -58,7 +59,7 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
 
-      test('should return remote data when the call to remote data source is sucessfull', (){
+      test('should return remote data when the call to remote data source is sucessfull', () async {
 
         //arrange
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
@@ -67,8 +68,9 @@ void main() {
         //act
         final result = await repository.getConcreteNumberTrivia(tNumber);
 
-
-
+        //assert
+        verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+        expect(result, Right(tNumberTrivia));
 
       });
 
